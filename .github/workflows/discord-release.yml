@@ -5,21 +5,17 @@ on:
     types: [published]
 
 jobs:
-  notify-discord:
+  notify:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send notification to Discord
-        uses: step-security/action-discord@v1   # более стабильная версия
+      - name: Send to Discord Webhook
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           username: "Zapret Updates"
-          avatar_url: "https://avatars.githubusercontent.com/u/109070025?v=4"
-          embed_title: "🎉 Новый релиз: ${{ github.event.release.tag_name }}"
-          embed_url: "${{ github.event.release.html_url }}"
-          embed_description: "${{ github.event.release.body }}"
-          embed_color: "00ff88"
-          embed_author_name: "Flowseal"
-          embed_author_url: "https://github.com/Flowseal"
-          embed_author_icon_url: "https://avatars.githubusercontent.com/u/109070025?v=4"
-          embed_footer: "zapret-discord-youtube"
+          avatarUrl: "https://avatars.githubusercontent.com/u/109070025?v=4"
+          title: "🎉 Новый релиз: ${{ github.event.release.tag_name }}"
+          url: "${{ github.event.release.html_url }}"
+          description: "${{ github.event.release.body }}"
+          color: "00ff88"
+          footer: "zapret-discord-youtube"
