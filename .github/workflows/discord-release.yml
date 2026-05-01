@@ -9,28 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send beautiful notification to Discord
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Send notification to Discord
+        uses: step-security/action-discord@v1   # более стабильная версия
         with:
-          args: |
-            {
-              "username": "Zapret Updates",
-              "avatar_url": "https://avatars.githubusercontent.com/u/109070025?v=4",
-              "embeds": [{
-                "title": "🎉 Новый релиз: {{ release.tag_name }}",
-                "url": "{{ release.html_url }}",
-                "description": "{{ release.body }}",
-                "color": 0x00ff88,
-                "author": {
-                  "name": "Flowseal",
-                  "url": "https://github.com/Flowseal",
-                  "icon_url": "https://avatars.githubusercontent.com/u/109070025?v=4"
-                },
-                "footer": {
-                  "text": "zapret-discord-youtube"
-                },
-                "timestamp": "{{ release.published_at }}"
-              }]
-            }
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "Zapret Updates"
+          avatar_url: "https://avatars.githubusercontent.com/u/109070025?v=4"
+          embed_title: "🎉 Новый релиз: ${{ github.event.release.tag_name }}"
+          embed_url: "${{ github.event.release.html_url }}"
+          embed_description: "${{ github.event.release.body }}"
+          embed_color: "00ff88"
+          embed_author_name: "Flowseal"
+          embed_author_url: "https://github.com/Flowseal"
+          embed_author_icon_url: "https://avatars.githubusercontent.com/u/109070025?v=4"
+          embed_footer: "zapret-discord-youtube"
