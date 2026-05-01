@@ -1,0 +1,36 @@
+name: Discord Release Notification
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send notification to Discord
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            {
+              "username": "Zapret Updates",
+              "avatar_url": "https://i.imgur.com/0Q0Z8Z8.png",
+              "embeds": [{
+                "title": "🎉 Вышел новый релиз: {{ release.tag_name }}",
+                "url": "{{ release.html_url }}",
+                "description": "{{ release.body }}",
+                "color": 3066993,
+                "author": {
+                  "name": "Flowseal",
+                  "url": "https://github.com/Flowseal",
+                  "icon_url": "https://avatars.githubusercontent.com/u/109070025?v=4"
+                },
+                "footer": {
+                  "text": "zapret-discord-youtube • Автоматическое уведомление"
+                },
+                "timestamp": "{{ release.published_at }}"
+              }]
+            }
